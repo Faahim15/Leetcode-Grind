@@ -5,6 +5,7 @@ int main()
     vector<int> nums = {8, 2, 4, 7};
     deque<int> inc;
     deque<int> dec;
+    int limit = 4;
     int left = 0;
     int maxlen = 0;
     for (int right = 0; right < nums.size(); right++)
