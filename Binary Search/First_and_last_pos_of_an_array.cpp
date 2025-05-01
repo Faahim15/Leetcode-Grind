@@ -1,42 +1,60 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main()
+
+int find_left_position(vector<int> nums, int target)
 {
-    vector<int> nums = {5, 7, 7, 8, 8, 10};
-    int target = 8;
     int l = 0;
     int r = nums.size() - 1;
-    int mid;
-    vector<int> ans;
-    bool flag = false;
     while (l <= r)
     {
-        mid = (l + r) / 2;
-        if (nums[mid] == target)
+        int mid = l + (r - l) / 2;
+
+        while (nums[mid] == target)
         {
-            flag = true;
-            break;
+            mid--;
+            if (!mid)
+                return mid;
+            else if (nums[mid] < target && nums[mid + 1] == target)
+                return mid + 1;
         }
-        else if (nums[mid] < target)
+        if (nums[mid] < target)
             l = mid + 1;
-        else
+        else if (nums[mid] > target)
             r = mid - 1;
     }
-    if (flag)
+    return -1;
+}
+
+int find_right_position(vector<int> nums, int target)
+{
+    int l = 0;
+    int r = nums.size() - 1;
+    while (l <= r)
     {
-        if (nums[l] == target && nums[r] != target)
-            ans = {l, mid};
-        else if (nums[l] == target && nums[mid] == target && nums[r] == target)
-            ans = {l,
-                   r};
-        else if (nums[l] != target && nums[r] != target)
-            ans = {mid, mid};
-        else
-            ans = {mid,
-                   r};
+        int mid = l + (r - l) / 2;
+        while (nums[mid] == target)
+        {
+            mid++;
+            if (mid == nums.size() - 1)
+                return mid;
+            else if (nums[mid] > target && nums[mid - 1] == target)
+                return mid - 1;
+        }
+        if (nums[mid] < target)
+            l = mid + 1;
+        else if (nums[mid] > target)
+            r = mid - 1;
     }
-    else
-        ans = {-1, -1};
+    return -1;
+}
+
+int main()
+{
+    vector<int> nums = {1, 2, 3, 3, 3, 3, 4, 5, 6};
+    int target = 3;
+    int left = find_left_position(nums, target);
+    int right = find_right_position(nums, target);
+    cout << left << " " << right;
 
     return 0;
 }
